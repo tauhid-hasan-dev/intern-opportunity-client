@@ -43,7 +43,7 @@ export const router = createBrowserRouter([
                 element: <Contact></Contact>
             },
             {
-                path: '/oppotunities',
+                path: '/opportunities',
                 element: <Opportunites></Opportunites>
             }
 

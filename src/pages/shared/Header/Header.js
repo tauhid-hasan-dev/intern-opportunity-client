@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { AuthContext } from '../../../contexts/AuthProvider/AuthProvider';
 
 const Header = () => {
+    const { user } = useContext(AuthContext);
+    console.log(user);
     return (
         <div className="navbar bg-slate-800  border-b border-slate-800 shadow-md px-5  lg:px-28 py-5">
             <div className="navbar-start">
@@ -77,6 +80,7 @@ const Header = () => {
                         isActive ? 'text-blue-color border-b-2 border-logo-color' : undefined
                     }>Contact</NavLink>
                 </ul>
+                <p className='text-white m-5 text-lg'>{user?.displayName}</p>
                 <Link to='/login' className='pl-8'><button className="btn btn- btn-success">Login</button></Link>
             </div>
         </div>
