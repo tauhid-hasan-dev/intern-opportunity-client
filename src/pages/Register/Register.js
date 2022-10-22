@@ -1,11 +1,29 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { FaGoogle, FaFacebook } from "react-icons/fa";
+import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 
 const Register = () => {
+    const { createUser } = useContext(AuthContext);
+
+    const handleCreateUser = (event) => {
+        event.preventDefault();
+        const form = event.target;
+        const name = form.name.value;
+        const email = form.email.value;
+        const password = form.password.value;
+        const confirm = form.confirm.value;
+        console.log(name, email, password, confirm)
+        createUser(email, password)
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+            })
+            .catch(e => console.error(e))
+    }
     return (
         <div className="px-20 py-10  flex flex-col items-center">
-            <form className="p-10 border-2 w-[450px] ">
+            <form onSubmit={handleCreateUser} className="p-10 border-2 w-[450px] ">
                 <p className="text-center text-3xl font-regular">Create a new Account</p>
                 <div className="form-control">
                     <label className="label">
