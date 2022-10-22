@@ -4,6 +4,7 @@ import Home from "../../pages/Home/Home";
 import Login from "../../pages/Login/Login";
 import Main from "../../pages/Main/Main";
 import News from "../../pages/News/News";
+import Opportunites from "../../pages/Opportunities/Opportunites";
 import Register from "../../pages/Register/Register";
 
 const { createBrowserRouter } = require("react-router-dom");
@@ -40,6 +41,10 @@ export const router = createBrowserRouter([
             {
                 path: '/contact',
                 element: <Contact></Contact>
+            },
+            {
+                path: '/oppotunities',
+                element: <Opportunites></Opportunites>
             }
 
         ]
