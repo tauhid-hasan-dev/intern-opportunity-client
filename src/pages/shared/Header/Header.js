@@ -16,6 +16,12 @@ const Header = () => {
                                 isActive ? 'text-blue-color border-b-2 border-logo-color' : undefined
                             }
                         >Home</NavLink>
+                        <NavLink
+                            to="/news"
+                            className={({ isActive }) =>
+                                isActive ? 'text-blue-color border-b-2 border-logo-color' : undefined
+                            }
+                        >News</NavLink>
 
                         <NavLink to='/blog' className={({ isActive }) =>
                             isActive ? 'text-blue-color border-b-2 border-logo-color' : undefined
@@ -44,6 +50,12 @@ const Header = () => {
                             isActive ? 'text-blue-color border-b-2 border-logo-color' : undefined
                         }
                     >Home</NavLink>
+                    <NavLink
+                        to="/news"
+                        className={({ isActive }) =>
+                            isActive ? 'text-blue-color border-b-2 border-logo-color' : undefined
+                        }
+                    >News</NavLink>
 
                     <NavLink to='/blog' className={({ isActive }) =>
                         isActive ? 'text-blue-color border-b-2 border-logo-color' : undefined

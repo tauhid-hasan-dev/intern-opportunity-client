@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FaGoogle, FaFacebook } from "react-icons/fa";
 
 const Login = () => {
     return (
-        <div className='p-20  flex flex-col items-center'>
-            <form className="p-10 shadow-2xl w-[450px] " >
+        <div className='px-20  py-10  flex flex-col items-center'>
+            <form className="p-10  border-2 w-[450px] " >
                 <p className='text-center text-3xl font-regular'>Login</p>
                 <div className="form-control">
                     <label className="label">
@@ -38,6 +39,13 @@ const Login = () => {
                     <Link to='/register' className="label-text-alt link link-hover text-orange-400">Create New Account</Link>
                 </div>
             </form>
+            <div className='mb-3 mt-3'>
+                ----------------- or ----------------
+            </div>
+            <div className='flex flex-col gap-3 mb-5 w-[25%]'>
+                <button className="btn btn-outline rounded-full btn-warning flex gap-2"><FaGoogle /> Login with Google</button>
+                <button className="btn btn-outline btn-primary rounded-full flex gap-2"><FaFacebook />Login with Facebook</button>
+            </div>
         </div>
     );
 };
