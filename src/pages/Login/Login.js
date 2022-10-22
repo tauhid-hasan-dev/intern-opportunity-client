@@ -1,11 +1,33 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaGoogle, FaFacebook } from "react-icons/fa";
+import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 
 const Login = () => {
+    const { signIn } = useContext(AuthContext);
+    const nevigate = useNavigate();
+
+    const handleSignIn = (event) => {
+        event.preventDefault();
+        const form = event.target;
+        const email = form.email.value;
+        const password = form.password.value;
+        console.log(email, password);
+
+        signIn(email, password)
+            .then(result => {
+                const user = result.user;
+                nevigate('/')
+                console.log(user)
+            })
+            .catch(e => {
+                console.error(e)
+            })
+
+    }
     return (
         <div className='px-20  py-10  flex flex-col items-center'>
-            <form className="p-10  border-2 w-[450px] " >
+            <form onSubmit={handleSignIn} className="p-10  border-2 w-[450px] " >
                 <p className='text-center text-3xl font-regular'>Login</p>
                 <div className="form-control">
                     <label className="label">
