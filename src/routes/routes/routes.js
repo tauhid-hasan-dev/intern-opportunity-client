@@ -6,6 +6,7 @@ import Main from "../../pages/Main/Main";
 import News from "../../pages/News/News";
 import Opportunites from "../../pages/Opportunities/Opportunites";
 import Register from "../../pages/Register/Register";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const { createBrowserRouter } = require("react-router-dom");
 
@@ -32,7 +33,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/news',
-                element: <News></News>
+                element: <PrivateRoute><News></News></PrivateRoute>
             },
             {
                 path: '/blog',
@@ -44,7 +45,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/opportunities',
-                element: <Opportunites></Opportunites>
+                element: <PrivateRoute><Opportunites></Opportunites></PrivateRoute>
             }
 
         ]
