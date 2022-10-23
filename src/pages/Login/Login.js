@@ -5,7 +5,11 @@ import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 
 const Login = () => {
     const { signIn, user } = useContext(AuthContext);
+    console.log('coming from login page', user);
     const nevigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
+    //console.log(from);
 
 
     const handleSignIn = (event) => {
@@ -13,12 +17,14 @@ const Login = () => {
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(email, password);
+        //console.log(email, password);
 
         signIn(email, password)
             .then(result => {
                 const user = result.user;
-                console.log(user)
+                form.reset()
+                //console.log(user)
+                nevigate(from, { replace: true });
             })
             .catch(e => {
                 console.error(e)
@@ -27,10 +33,14 @@ const Login = () => {
     }
 
     useEffect(() => {
-        if (user && user.uid) {
-            nevigate('/');
+        if (user) {
+            nevigate(from, { replace: true });
         }
-    }, [user, nevigate]);
+    }, [user])
+
+
+
+
 
 
     return (

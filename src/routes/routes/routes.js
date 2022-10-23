@@ -1,3 +1,4 @@
+import { createBrowserRouter } from "react-router-dom";
 import Blog from "../../pages/Blog/Blog";
 import Contact from "../../pages/Contact/Contact";
 import Home from "../../pages/Home/Home";
@@ -8,7 +9,6 @@ import Opportunites from "../../pages/Opportunities/Opportunites";
 import Register from "../../pages/Register/Register";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
-const { createBrowserRouter } = require("react-router-dom");
 
 export const router = createBrowserRouter([
     {

@@ -10,7 +10,7 @@ const Header = () => {
             .then(() => { })
             .catch(e => console.error(e))
     }
-    console.log(user);
+    //console.log(user);
     return (
         <div className="navbar bg-slate-800  border-b border-slate-800 shadow-md px-5  lg:px-20 py-5">
             <div className="navbar-start w-[20%]">
