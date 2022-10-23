@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { FaUserAlt } from 'react-icons/fa';
 import { Link, NavLink } from 'react-router-dom';
 import { AuthContext } from '../../../contexts/AuthProvider/AuthProvider';
 
@@ -86,8 +87,12 @@ const Header = () => {
                         isActive ? 'text-green-500 border-b-2 border-logo-color' : undefined
                     }>Contact</NavLink>
                 </ul>
-                <p className=' m-5 text-lg bg-slate-700 p-2  rounded text-green-500'>{user?.email ? user?.email : ''}</p>
+                {user?.email && <p className=' m-5 text-lg bg-slate-700 p-2  rounded text-green-500'>{user?.email ? user?.displayName : ''}</p>}
+
+                {user?.photoURL ? <img className='w-14 h-14 rounded-full mr-5' src={user?.photoURL} alt="" /> : <FaUserAlt className='text-white mx-4' size={30} />}
+
                 {user?.uid ? <button onClick={handleLogout} className="btn btn- btn-log">Logout</button> : <Link to='/login' className='pl-3'><button className="btn btn- btn-success">Login</button></Link>}
+
             </div>
         </div>
     );

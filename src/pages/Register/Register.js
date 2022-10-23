@@ -3,9 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaGoogle, FaFacebook, FaGithub } from "react-icons/fa";
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 import { FacebookAuthProvider, GithubAuthProvider, GoogleAuthProvider } from 'firebase/auth';
+import toast from 'react-hot-toast';
 
 const Register = () => {
-    const { createUser, googleSignIn, facebookSignIn, githubSignIn } = useContext(AuthContext);
+    const { createUser, googleSignIn, facebookSignIn, githubSignIn, updateUser, verifyEmail } = useContext(AuthContext);
     const nevigate = useNavigate();
 
     const googleProvider = new GoogleAuthProvider();
@@ -40,6 +41,9 @@ const Register = () => {
             .catch(e => console.error(e))
     }
 
+
+
+
     const handleCreateUser = (event) => {
         event.preventDefault();
         const form = event.target;
@@ -52,9 +56,28 @@ const Register = () => {
             .then(result => {
                 const user = result.user;
                 form.reset();
+                nevigate('/');
+                handleUpdateUser(name);
+                sendVerifyEmail();
+                toast.success('Your are registered.Please verify your email')
                 //console.log(user);
             })
             .catch(e => console.error(e))
+    }
+
+    const handleUpdateUser = (name) => {
+        const profile = {
+            displayName: name
+        }
+        updateUser(profile)
+            .then(() => { })
+            .then(e => console.error(e))
+    }
+
+    const sendVerifyEmail = () => {
+        verifyEmail()
+            .then(() => { })
+            .then(e => console.error(e))
     }
     return (
         <div className="px-20 py-10  flex flex-col items-center">
