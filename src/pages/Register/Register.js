@@ -1,10 +1,34 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaGoogle, FaFacebook } from "react-icons/fa";
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
+import { FacebookAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 
 const Register = () => {
-    const { createUser } = useContext(AuthContext);
+    const { createUser, googleSignIn, facebookSignIn } = useContext(AuthContext);
+    const nevigate = useNavigate();
+
+    const googleProvider = new GoogleAuthProvider();
+    const facebookProvider = new FacebookAuthProvider();
+
+    const handleGoogleSignIn = () => {
+        googleSignIn(googleProvider)
+            .then(result => {
+                const user = result.user;
+                nevigate('/');
+                console.log(user)
+            })
+            .catch(e => console.error(e))
+    }
+
+    const handleFacebookSignIn = () => {
+        facebookSignIn(facebookProvider)
+            .then(result => {
+                const user = result.user;
+                console.log(user)
+            })
+            .catch(e => console.error(e))
+    }
 
     const handleCreateUser = (event) => {
         event.preventDefault();
@@ -100,8 +124,8 @@ const Register = () => {
                 ----------------- or ----------------
             </div>
             <div className='flex flex-col gap-3 mb-5 w-[25%]'>
-                <button className="btn btn-outline rounded-full btn-warning flex gap-2"><FaGoogle /> Login with Google</button>
-                <button className="btn btn-outline btn-primary rounded-full flex gap-2"><FaFacebook />Login with Facebook</button>
+                <button onClick={handleGoogleSignIn} className="btn btn-outline rounded-full btn-warning flex gap-2"><FaGoogle /> Login with Google</button>
+                <button onClick={handleFacebookSignIn} className="btn btn-outline btn-primary rounded-full flex gap-2"><FaFacebook />Login with Facebook</button>
             </div>
         </div>
     );

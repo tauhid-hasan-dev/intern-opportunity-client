@@ -86,7 +86,7 @@ const Header = () => {
                         isActive ? 'text-green-500 border-b-2 border-logo-color' : undefined
                     }>Contact</NavLink>
                 </ul>
-                <p className=' m-5 text-lg bg-slate-700 p-2  rounded text-green-500'>{user?.email}</p>
+                <p className=' m-5 text-lg bg-slate-700 p-2  rounded text-green-500'>{user?.email ? user?.email : ''}</p>
                 {user?.uid ? <button onClick={handleLogout} className="btn btn- btn-log">Logout</button> : <Link to='/login' className='pl-3'><button className="btn btn- btn-success">Login</button></Link>}
             </div>
         </div>

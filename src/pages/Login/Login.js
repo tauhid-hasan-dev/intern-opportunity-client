@@ -2,15 +2,35 @@ import React, { useContext, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaGoogle, FaFacebook } from "react-icons/fa";
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
+import { FacebookAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 
 const Login = () => {
-    const { signIn, user } = useContext(AuthContext);
+    const { signIn, user, googleSignIn, facebookSignIn } = useContext(AuthContext);
     console.log('coming from login page', user);
     const nevigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
     //console.log(from);
+    const googleProvider = new GoogleAuthProvider();
+    const facebookProvider = new FacebookAuthProvider();
 
+    const handleGoogleSignIn = () => {
+        googleSignIn(googleProvider)
+            .then(result => {
+                const user = result.user;
+                console.log(user)
+            })
+            .catch(e => console.error(e))
+    }
+
+    const handleFacebookSignIn = () => {
+        facebookSignIn(facebookProvider)
+            .then(result => {
+                const user = result.user;
+                console.log(user)
+            })
+            .catch(e => console.error(e))
+    }
 
     const handleSignIn = (event) => {
         event.preventDefault();
@@ -37,10 +57,6 @@ const Login = () => {
             nevigate(from, { replace: true });
         }
     }, [user])
-
-
-
-
 
 
     return (
@@ -83,8 +99,8 @@ const Login = () => {
                 ----------------- or ----------------
             </div>
             <div className='flex flex-col gap-3 mb-5 w-[25%]'>
-                <button className="btn btn-outline rounded-full btn-warning flex gap-2"><FaGoogle /> Login with Google</button>
-                <button className="btn btn-outline btn-primary rounded-full flex gap-2"><FaFacebook />Login with Facebook</button>
+                <button onClick={handleGoogleSignIn} className="btn btn-outline rounded-full btn-warning flex gap-2"><FaGoogle /> Login with Google</button>
+                <button onClick={handleFacebookSignIn} className="btn btn-outline btn-primary rounded-full flex gap-2"><FaFacebook />Login with Facebook</button>
             </div>
         </div>
     );
