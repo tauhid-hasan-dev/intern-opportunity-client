@@ -13,30 +13,37 @@ const AuthProvider = ({ children }) => {
     /* const user = { displayName: "hasan" } */
 
     const createUser = (email, password) => {
+        setLoading(true)
         return createUserWithEmailAndPassword(auth, email, password)
     };
 
     const signIn = (email, password) => {
+        setLoading(true)
         return signInWithEmailAndPassword(auth, email, password)
     }
 
     const logOut = () => {
+        setLoading(true)
         return signOut(auth);
     }
 
     const googleSignIn = (provider) => {
+        setLoading(true)
         return signInWithPopup(auth, provider);
     }
 
     const facebookSignIn = (provider) => {
+        setLoading(true)
         return signInWithPopup(auth, provider)
     }
 
     const githubSignIn = (provider) => {
+        setLoading(true)
         return signInWithPopup(auth, provider)
     }
 
     const updateUser = (profile) => {
+
         return updateProfile(auth.currentUser, profile)
     }
 
@@ -44,9 +51,14 @@ const AuthProvider = ({ children }) => {
         return sendEmailVerification(auth.currentUser);
     }
 
+
+
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
+            if (currentUser === null || currentUser.emailVerified) {
+                setUser(currentUser);
+            }
+            /* setUser(currentUser); */
             setLoading(false);
         });
 
@@ -57,7 +69,7 @@ const AuthProvider = ({ children }) => {
 
 
 
-    const value = { user, createUser, logOut, signIn, loading, googleSignIn, facebookSignIn, githubSignIn, updateUser, verifyEmail }
+    const value = { user, createUser, logOut, signIn, loading, googleSignIn, facebookSignIn, githubSignIn, updateUser, verifyEmail, setLoading }
     return (
         <AuthContext.Provider value={value}>
             {children}

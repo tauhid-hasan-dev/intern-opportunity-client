@@ -71,13 +71,13 @@ const Register = () => {
         }
         updateUser(profile)
             .then(() => { })
-            .then(e => console.error(e))
+            .catch(e => console.error(e))
     }
 
     const sendVerifyEmail = () => {
         verifyEmail()
             .then(() => { })
-            .then(e => console.error(e))
+            .catch(e => console.error(e))
     }
     return (
         <div className="px-20 py-10  flex flex-col items-center">
@@ -124,7 +124,7 @@ const Register = () => {
                         <span className="label-text">Confirm Password</span>
                     </label>
                     <input
-                        type="confirm"
+                        type="password"
                         name="confirm"
                         placeholder="Confirm password"
                         className="input input-bordered"

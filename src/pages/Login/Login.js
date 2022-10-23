@@ -3,9 +3,11 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaGoogle, FaFacebook } from "react-icons/fa";
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 import { FacebookAuthProvider, GoogleAuthProvider } from 'firebase/auth';
+import toast from 'react-hot-toast';
 
 const Login = () => {
-    const { signIn, user, googleSignIn, facebookSignIn } = useContext(AuthContext);
+    const { signIn, user, googleSignIn, facebookSignIn, setLoading } = useContext(AuthContext);
+
     console.log('coming from login page', user);
     const nevigate = useNavigate();
     const location = useLocation();
@@ -15,6 +17,7 @@ const Login = () => {
     const facebookProvider = new FacebookAuthProvider();
 
     const handleGoogleSignIn = () => {
+        console.log('coming from login page', user);
         googleSignIn(googleProvider)
             .then(result => {
                 const user = result.user;
@@ -34,27 +37,42 @@ const Login = () => {
 
     const handleSignIn = (event) => {
         event.preventDefault();
+
+
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
         //console.log(email, password);
 
+
         signIn(email, password)
             .then(result => {
                 const user = result.user;
                 form.reset()
-                //console.log(user)
-                nevigate(from, { replace: true });
+                if (user.emailVerified) {
+                    nevigate(from, { replace: true });
+                    toast.success("Congratulations! You are signed in");
+                } else {
+                    toast.error("Your email is not verified");
+                }
             })
             .catch(e => {
                 console.error(e)
+            })
+            .finally(() => {
+                setLoading(false)
             })
 
     }
 
     useEffect(() => {
         if (user) {
-            nevigate(from, { replace: true });
+            if (user.emailVerified) {
+                nevigate(from, { replace: true });
+                toast.success("Congratulations! You are signed in");
+            } else {
+                toast.error("Your email is not verified");
+            }
         }
     }, [user])
 
