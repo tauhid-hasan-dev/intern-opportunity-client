@@ -1,15 +1,16 @@
 import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaGoogle, FaFacebook } from "react-icons/fa";
+import { FaGoogle, FaFacebook, FaGithub } from "react-icons/fa";
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
-import { FacebookAuthProvider, GoogleAuthProvider } from 'firebase/auth';
+import { FacebookAuthProvider, GithubAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 
 const Register = () => {
-    const { createUser, googleSignIn, facebookSignIn } = useContext(AuthContext);
+    const { createUser, googleSignIn, facebookSignIn, githubSignIn } = useContext(AuthContext);
     const nevigate = useNavigate();
 
     const googleProvider = new GoogleAuthProvider();
     const facebookProvider = new FacebookAuthProvider();
+    const githubProvider = new GithubAuthProvider();
 
     const handleGoogleSignIn = () => {
         googleSignIn(googleProvider)
@@ -23,6 +24,15 @@ const Register = () => {
 
     const handleFacebookSignIn = () => {
         facebookSignIn(facebookProvider)
+            .then(result => {
+                const user = result.user;
+                console.log(user)
+            })
+            .catch(e => console.error(e))
+    }
+
+    const handleGithubSignIn = () => {
+        githubSignIn(githubProvider)
             .then(result => {
                 const user = result.user;
                 console.log(user)
@@ -126,6 +136,7 @@ const Register = () => {
             <div className='flex flex-col gap-3 mb-5 w-[25%]'>
                 <button onClick={handleGoogleSignIn} className="btn btn-outline rounded-full btn-warning flex gap-2"><FaGoogle /> Login with Google</button>
                 <button onClick={handleFacebookSignIn} className="btn btn-outline btn-primary rounded-full flex gap-2"><FaFacebook />Login with Facebook</button>
+                <button onClick={handleGithubSignIn} className="btn btn-outline  rounded-full flex gap-2"><FaGithub />Login with Github</button>
             </div>
         </div>
     );
