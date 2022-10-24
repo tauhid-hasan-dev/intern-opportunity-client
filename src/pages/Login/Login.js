@@ -8,6 +8,7 @@ import Reset from './Reset';
 
 const Login = () => {
     const [openModal, setOpenModal] = useState(false);
+    const [error, setError] = useState('')
     const { signIn, user, googleSignIn, facebookSignIn, setLoading, resetPassword } = useContext(AuthContext);
 
     const nevigate = useNavigate();
@@ -54,6 +55,7 @@ const Login = () => {
         signIn(email, password)
             .then(result => {
                 const user = result.user;
+                setError('')
                 form.reset()
                 if (user.emailVerified) {
                     nevigate(from, { replace: true });
@@ -63,7 +65,8 @@ const Login = () => {
                 }
             })
             .catch(e => {
-                console.error(e)
+                console.error(e);
+                setError(e.messege)
             })
             .finally(() => {
                 setLoading(false)
@@ -99,6 +102,9 @@ const Login = () => {
                     </label>
                     <input type="password" name='password' placeholder="password" className="input input-bordered" required />
 
+                </div>
+                <div className='text-red-600 bg-red-100 mb-3 mt-2 '>
+                    {error.slice(22, -2)}
                 </div>
                 <div className='flex justify-between mt-3'>
                     <div>

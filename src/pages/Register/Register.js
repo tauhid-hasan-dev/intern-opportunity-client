@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 const Register = () => {
     const [accepted, setAccepted] = useState(false);
     const [passwordError, setPasswordError] = useState('');
+    const [error, setError] = useState('')
 
     const { createUser, googleSignIn, facebookSignIn, githubSignIn, updateUser, verifyEmail } = useContext(AuthContext);
     const nevigate = useNavigate();
@@ -34,6 +35,7 @@ const Register = () => {
         facebookSignIn(facebookProvider)
             .then(result => {
                 const user = result.user;
+                nevigate('/');
                 console.log(user)
             })
             .catch(e => console.error(e))
@@ -43,6 +45,7 @@ const Register = () => {
         githubSignIn(githubProvider)
             .then(result => {
                 const user = result.user;
+                nevigate('/');
                 console.log(user)
             })
             .catch(e => console.error(e))
@@ -67,7 +70,6 @@ const Register = () => {
             return
         }
 
-
         if (!/(?=.*[!@#$&*])/.test(password)) {
             setPasswordError('Password should have at least one special character');
             return
@@ -82,6 +84,7 @@ const Register = () => {
         createUser(email, password)
             .then(result => {
                 const user = result.user;
+                setError('');
                 form.reset();
                 nevigate('/');
                 handleUpdateUser(name);
@@ -89,7 +92,10 @@ const Register = () => {
                 toast.success('Your are registered.Please verify your email')
                 //console.log(user);
             })
-            .catch(e => console.error(e))
+            .catch(e => {
+                console.error(e)
+                setError(e.message);
+            })
     }
 
     const handleUpdateUser = (name) => {
@@ -161,13 +167,16 @@ const Register = () => {
                         required
                     />
                 </div>
-
+                <div className='text-red-600 bg-red-100 mb-3 mt-2 '>
+                    {error.slice(22, -2)}
+                </div>
                 <div >
                     <input onClick={handleAccepted} type="checkbox" id="terms" name="terms" value="terms" />
                     <label htmlFor="terms"> {<>
                         Accept <Link to='/terms' className="underline text-blue-500">Terms and Conditions</Link>
                     </>}</label>
                 </div>
+
 
                 <div className="form-control mt-6">
                     <button className="btn bg-btn-color text-black border-btn-color bg-orange-300 border-orange-300   hover:bg-orange-500 hover:border-orange-500" disabled={!accepted}>
