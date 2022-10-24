@@ -42,8 +42,6 @@ const Register = () => {
     }
 
 
-
-
     const handleCreateUser = (event) => {
         event.preventDefault();
         const form = event.target;
@@ -76,7 +74,7 @@ const Register = () => {
 
     const sendVerifyEmail = () => {
         verifyEmail()
-            .then(() => { })
+            .then(() => { console.log('kaj kore kina') })
             .catch(e => console.error(e))
     }
     return (

@@ -1,14 +1,15 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaGoogle, FaFacebook } from "react-icons/fa";
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 import { FacebookAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 import toast from 'react-hot-toast';
+import Reset from './Reset';
 
 const Login = () => {
-    const { signIn, user, googleSignIn, facebookSignIn, setLoading } = useContext(AuthContext);
+    const [openModal, setOpenModal] = useState(false);
+    const { signIn, user, googleSignIn, facebookSignIn, setLoading, resetPassword } = useContext(AuthContext);
 
-    console.log('coming from login page', user);
     const nevigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
@@ -16,8 +17,15 @@ const Login = () => {
     const googleProvider = new GoogleAuthProvider();
     const facebookProvider = new FacebookAuthProvider();
 
+    const handleResetPassword = (event) => {
+        event.preventDefault()
+        const resetEmail = event.target.email.value;
+        resetPassword(resetEmail)
+        setOpenModal(false);
+        toast.success('Check your email to to reset your password');
+    }
+
     const handleGoogleSignIn = () => {
-        console.log('coming from login page', user);
         googleSignIn(googleProvider)
             .then(result => {
                 const user = result.user;
@@ -37,13 +45,10 @@ const Login = () => {
 
     const handleSignIn = (event) => {
         event.preventDefault();
-
-
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
         //console.log(email, password);
-
 
         signIn(email, password)
             .then(result => {
@@ -102,7 +107,7 @@ const Login = () => {
                         </>}</label>
                     </div>
                     <div >
-                        <label htmlFor="my-modal-3" className="cursor underline text-orange-500">Forgot Password?</label>
+                        <label onClick={() => setOpenModal(true)} htmlFor="my-modal-3" className="cursor underline text-orange-500">Forgot Password?</label>
                     </div>
 
                 </div>
@@ -122,24 +127,12 @@ const Login = () => {
                 <button onClick={handleFacebookSignIn} className="btn btn-outline btn-primary rounded-full flex gap-2"><FaFacebook />Login with Facebook</button>
             </div>
 
-            {/* Modal body */}
-            <input type="checkbox" id="my-modal-3" className="modal-toggle" />
-            <div className="modal jus">
-                <div className="modal-box relative">
-                    <label htmlFor="my-modal-3" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                    <h3 className="text-lg font-bold">Please enter your email to reset password</h3>
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Email</span>
-                        </label>
-                        <input type="email" name='email' placeholder="email" className="input input-bordered" required />
-                    </div>
-                    <div className="form-control mt-6 flex-row justify-end">
-                        <button className="btn bg-btn-color text-black border-btn-color hover:bg-orange-400 hover:border-orange-400 bg-orange-300 border-orange-300">Update</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+            {
+                openModal && <Reset handleResetPassword={handleResetPassword}></Reset>
+            }
+
+
+        </div >
     );
 };
 

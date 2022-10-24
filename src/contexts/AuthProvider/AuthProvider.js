@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react';
 import app from '../../firebase/firebase.config';
-import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword, signInWithPopup, updateProfile, sendEmailVerification } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword, signInWithPopup, updateProfile, sendEmailVerification, sendPasswordResetEmail } from "firebase/auth";
 
 
 export const AuthContext = createContext();
@@ -51,6 +51,10 @@ const AuthProvider = ({ children }) => {
         return sendEmailVerification(auth.currentUser);
     }
 
+    const resetPassword = (email) => {
+        return sendPasswordResetEmail(auth, email);
+    }
+
 
 
     useEffect(() => {
@@ -69,7 +73,7 @@ const AuthProvider = ({ children }) => {
 
 
 
-    const value = { user, createUser, logOut, signIn, loading, googleSignIn, facebookSignIn, githubSignIn, updateUser, verifyEmail, setLoading }
+    const value = { user, createUser, logOut, signIn, loading, googleSignIn, facebookSignIn, githubSignIn, updateUser, verifyEmail, setLoading, resetPassword }
     return (
         <AuthContext.Provider value={value}>
             {children}
