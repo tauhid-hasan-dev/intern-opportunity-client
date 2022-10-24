@@ -22,7 +22,7 @@ const Login = () => {
         const resetEmail = event.target.email.value;
         resetPassword(resetEmail)
         setOpenModal(false);
-        toast.success('Check your email to to reset your password');
+        toast.success('A reset email is sent to your email if its valid');
     }
 
     const handleGoogleSignIn = () => {

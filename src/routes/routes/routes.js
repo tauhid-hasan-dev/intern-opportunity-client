@@ -6,6 +6,7 @@ import Login from "../../pages/Login/Login";
 import Main from "../../pages/Main/Main";
 import News from "../../pages/News/News";
 import Opportunites from "../../pages/Opportunities/Opportunites";
+import Terms from "../../pages/Other/Terms";
 import Register from "../../pages/Register/Register";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
@@ -46,6 +47,10 @@ export const router = createBrowserRouter([
             {
                 path: '/opportunities',
                 element: <PrivateRoute><Opportunites></Opportunites></PrivateRoute>
+            },
+            {
+                path: '/terms',
+                element: <Terms></Terms>
             }
 
         ]

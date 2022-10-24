@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaGoogle, FaFacebook, FaGithub } from "react-icons/fa";
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
@@ -6,12 +6,17 @@ import { FacebookAuthProvider, GithubAuthProvider, GoogleAuthProvider } from 'fi
 import toast from 'react-hot-toast';
 
 const Register = () => {
+    const [accepted, setAccepted] = useState(false)
     const { createUser, googleSignIn, facebookSignIn, githubSignIn, updateUser, verifyEmail } = useContext(AuthContext);
     const nevigate = useNavigate();
 
     const googleProvider = new GoogleAuthProvider();
     const facebookProvider = new FacebookAuthProvider();
     const githubProvider = new GithubAuthProvider();
+
+    const handleAccepted = (event) => {
+        setAccepted(event.target.checked);
+    }
 
     const handleGoogleSignIn = () => {
         googleSignIn(googleProvider)
@@ -130,14 +135,14 @@ const Register = () => {
                     />
                 </div>
                 <div >
-                    <input type="checkbox" id="terms" name="terms" value="terms" />
+                    <input onClick={handleAccepted} type="checkbox" id="terms" name="terms" value="terms" />
                     <label htmlFor="terms"> {<>
                         Accept <Link to='/terms' className="underline text-blue-500">Terms and Conditions</Link>
                     </>}</label>
                 </div>
 
                 <div className="form-control mt-6">
-                    <button className="btn bg-btn-color text-black border-btn-color bg-orange-300 border-orange-300   hover:bg-orange-500 hover:border-orange-500" >
+                    <button className="btn bg-btn-color text-black border-btn-color bg-orange-300 border-orange-300   hover:bg-orange-500 hover:border-orange-500" disabled={!accepted}>
                         Sign Up
                     </button>
                 </div>
