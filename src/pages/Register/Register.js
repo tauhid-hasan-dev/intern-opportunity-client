@@ -6,7 +6,9 @@ import { FacebookAuthProvider, GithubAuthProvider, GoogleAuthProvider } from 'fi
 import toast from 'react-hot-toast';
 
 const Register = () => {
-    const [accepted, setAccepted] = useState(false)
+    const [accepted, setAccepted] = useState(false);
+    const [passwordError, setPasswordError] = useState('');
+
     const { createUser, googleSignIn, facebookSignIn, githubSignIn, updateUser, verifyEmail } = useContext(AuthContext);
     const nevigate = useNavigate();
 
@@ -54,6 +56,28 @@ const Register = () => {
         const email = form.email.value;
         const password = form.password.value;
         const confirm = form.confirm.value;
+
+        if (password.length < 6) {
+            setPasswordError('Password should be at least 6 character');
+            return
+        }
+
+        if (!/(?=.*[A-Z].*[A-Z])/.test(password)) {
+            setPasswordError('Please provide at least two uppercase');
+            return
+        }
+
+
+        if (!/(?=.*[!@#$&*])/.test(password)) {
+            setPasswordError('Password should have at least one special character');
+            return
+        }
+
+        if (password.length !== confirm.length) {
+            setPasswordError('Password does not match');
+            return
+        }
+
         //console.log(name, email, password, confirm)
         createUser(email, password)
             .then(result => {
@@ -122,6 +146,9 @@ const Register = () => {
                         required
                     />
                 </div>
+                <div className='text-red-500'>
+                    {passwordError}
+                </div>
                 <div className="form-control mb-3">
                     <label className="label">
                         <span className="label-text">Confirm Password</span>
@@ -134,6 +161,7 @@ const Register = () => {
                         required
                     />
                 </div>
+
                 <div >
                     <input onClick={handleAccepted} type="checkbox" id="terms" name="terms" value="terms" />
                     <label htmlFor="terms"> {<>

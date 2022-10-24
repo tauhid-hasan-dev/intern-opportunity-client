@@ -18,8 +18,9 @@ const Login = () => {
     const facebookProvider = new FacebookAuthProvider();
 
     const handleResetPassword = (event) => {
-        event.preventDefault()
+        event.preventDefault();
         const resetEmail = event.target.email.value;
+
         resetPassword(resetEmail)
         setOpenModal(false);
         toast.success('A reset email is sent to your email if its valid');
